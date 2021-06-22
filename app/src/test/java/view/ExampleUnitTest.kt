@@ -1,4 +1,4 @@
-package com.example.ap2ex3
+package view
 
 import org.junit.Test
 

@@ -1,7 +1,13 @@
 package viewmodel
 
-import androidx.lifecycle.ViewModel
+interface RemoteViewModel {
+    fun connect()
 
-class RemoteViewModel : ViewModel() {
+    var ip : String
+    var port : Int
 
+    var aileron : Double
+    var elevator : Double
+    var rudder : Double
+    var throttle : Double
 }
