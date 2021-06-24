@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="@{viewModel.ip}" />
+                android:text="@={viewModel.ip}" />
 
             <EditText
                 android:id="@+id/portEdit"
@@ -42,6 +42,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/connect" />
+
+            <view.Joystick
+                android:id="@+id/dialView"
+                android:layout_width="202dp"
+                android:layout_height="154dp"
+                app:JoystickColor="@color/gray_600"
+                app:borderColor="@color/black"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customViewLabel" />
+
 
         </LinearLayout>
 

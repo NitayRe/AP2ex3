@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="Joystick">
+        <attr name="borderColor" format="color" />
+        <attr name="JoystickColor" format="color" />
+    </declare-styleable>
+</resources>
