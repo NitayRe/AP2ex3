@@ -19,6 +19,7 @@ class RemoteModelImpl : RemoteModel{
 
     }
 
+
     private fun run() {
         while (!stop) {
             val toRun = tasks.take()
@@ -73,8 +74,8 @@ class RemoteModelImpl : RemoteModel{
         }
 
     override fun close() {
-        var toRun1 = { socket.close() }
-        var toRun2 = { stop = true }
+        val toRun1 = { socket.close() }
+        val toRun2 = { stop = true }
 
         tasks.add(toRun1)
         tasks.add(toRun2)
