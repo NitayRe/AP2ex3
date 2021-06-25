@@ -34,10 +34,9 @@ class MainActivity : AppCompatActivity() {
         // bind joystick move to aileron and elevator
         binding.joystick.setOnJoystickMovedListener(object : OnJoystickMovedListener {
             override fun onJoystickMoved(x: Float, y: Float) {
-                viewModel.elevator = x.toDouble()
-
                 // since negative y value is up, we will take the negative of y
-                viewModel.aileron = -y.toDouble()
+                viewModel.elevator = -y.toDouble()
+                viewModel.aileron = x.toDouble()
             }
         })
     }
