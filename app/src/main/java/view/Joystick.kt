@@ -1,5 +1,6 @@
 package view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -7,9 +8,8 @@ import android.graphics.PointF
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import kotlin.math.min
 import androidx.core.content.withStyledAttributes
-import java.lang.Integer.min
-import java.util.*
 import kotlin.math.sqrt
 
 /**
@@ -36,10 +36,10 @@ class Joystick @JvmOverloads constructor(
     private val joystickPaint = Paint()
 
     // define interface for listener for joystick moved event
-    public interface OnJoystickMovedListener {
+    interface OnJoystickMovedListener {
         // this is called when joystick is moved
         // values of x and y are normalizes to range of -1 to 1
-        public fun onJoystickMoved(x: Float, y: Float)
+        fun onJoystickMoved(x: Float, y: Float)
     }
 
     private var listener : OnJoystickMovedListener? = null
@@ -79,6 +79,7 @@ class Joystick @JvmOverloads constructor(
             joystickRadius, joystickPaint)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event == null) {
             return true
@@ -90,7 +91,8 @@ class Joystick @JvmOverloads constructor(
             MotionEvent.ACTION_UP -> { joystickCenter = PointF() }
         }
 
-        listener?.onJoystickMoved(joystickCenter.x / touchAreaRadius, joystickCenter.y / touchAreaRadius)
+        listener?.onJoystickMoved(joystickCenter.x / touchAreaRadius,
+            joystickCenter.y / touchAreaRadius)
 
         // update display
         invalidate()
@@ -110,7 +112,7 @@ class Joystick @JvmOverloads constructor(
     // gets the position of the cursor
     private fun updateJoystickPosition(x: Float, y: Float){
         // validate joystick in area
-        var dist = distFromCenter(x, y)
+        val dist = distFromCenter(x, y)
         joystickCenter = if (dist <= touchAreaRadius) {
             PointF(x - center.x, y - center.y)
         } else {

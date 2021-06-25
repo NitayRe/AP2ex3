@@ -1,5 +1,6 @@
 package model
 
+import java.io.PrintWriter
 import java.net.Socket
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.LinkedBlockingQueue
@@ -39,7 +40,11 @@ class RemoteModelImpl : RemoteModel{
     }
 
     private fun sendStringTask(toSend : String) {
-        val toRun = { socket.outputStream.write(toSend.toByteArray()) }
+        val toRun = {
+            val out = PrintWriter(socket.getOutputStream(),true)
+            out.print(toSend + "\r\n")
+            out.flush()
+        }
         tasks.add(toRun)
     }
 

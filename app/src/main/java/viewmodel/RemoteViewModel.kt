@@ -8,6 +8,6 @@ interface RemoteViewModel {
 
     var aileron : Double
     var elevator : Double
-    var rudder : Double
-    var throttle : Double
+    var rudder : Int
+    var throttle : Int
 }

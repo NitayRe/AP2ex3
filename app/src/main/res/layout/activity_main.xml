@@ -11,50 +11,105 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".MainActivity"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
 
-        <LinearLayout
-            android:layout_width="409dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="0dp">
+        <FrameLayout
+            android:rotation="270"
+            android:layout_width="200dp"
+            android:layout_height="300dp"
+            android:layout_marginBottom="30dp"
+            app:layout_constraintBottom_toTopOf="@+id/rudder"
+            app:layout_constraintEnd_toStartOf="@+id/joystick"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/connectButton">
 
-            <EditText
-                android:id="@+id/ipEdit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="@={viewModel.ip}" />
+            <SeekBar
+                android:id="@+id/throttle"
+                android:layout_width="100dp"
+                android:layout_height="200dp"
+                android:progress="@={viewModel.throttle}"
+                android:verticalScrollbarPosition="left" />
 
-            <EditText
-                android:id="@+id/portEdit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number"
-                android:text="@={`` + viewModel.port}"/>
+        </FrameLayout>
 
-            <Button
-                android:onClick="@{() -> viewModel.connect()}"
-                android:id="@+id/connectButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/connect" />
+        <view.Joystick
+            android:id="@+id/joystick"
+            android:layout_width="300dp"
+            android:layout_height="320dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            app:JoystickColor="@color/gray_600"
+            app:borderColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/connectButton" />
 
-            <view.Joystick
-                android:id="@+id/dialView"
-                android:layout_width="202dp"
-                android:layout_height="154dp"
-                app:JoystickColor="@color/gray_600"
-                app:borderColor="@color/black"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/customViewLabel" />
+        <Button
+            android:id="@+id/connectButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:onClick="@{() -> viewModel.connect()}"
+            android:text="@string/connect"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/portEdit" />
 
+        <EditText
+            android:id="@+id/ipEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:autofillHints="ip"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@={viewModel.ip}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="LabelFor" />
 
-        </LinearLayout>
+        <EditText
+            android:id="@+id/portEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="68dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:autofillHints="port"
+            android:ems="10"
+            android:inputType="number"
+            android:text="@={`` + viewModel.port}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ipEdit"
+            tools:ignore="LabelFor" />
+
+        <SeekBar
+            android:id="@+id/rudder"
+            android:layout_width="340dp"
+            android:layout_height="54dp"
+            android:progress="@={viewModel.rudder}"
+            android:verticalScrollbarPosition="defaultPosition"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/joystick" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
