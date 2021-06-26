@@ -74,7 +74,6 @@ class RemoteModelImpl : RemoteModel{
     override fun connect(ip : String, port : Int) {
         val toRun = Runnable { innerConnect(ip, port)}
         tasks.add(toRun)
-        sendStringTask(("creating connection"))
     }
 
     /**
