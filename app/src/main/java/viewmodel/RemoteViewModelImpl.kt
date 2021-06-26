@@ -1,14 +1,18 @@
 package viewmodel
 
+import androidx.core.text.isDigitsOnly
 import model.RemoteModel
 
 class RemoteViewModelImpl(private var model : RemoteModel, private val seekbarMax : Int) : RemoteViewModel {
+
     override fun connect() {
-        model.connect(this.ip, this.port)
+        if (this.port.toIntOrNull() != null) {
+            model.connect(this.ip, this.port.toInt())
+        }
     }
 
-    override var ip : String = "127.0.0.1"
-    override var port : Int = 9876
+    override var ip : String = ""
+    override var port : String = ""
 
     override var aileron : Double = 0.0
         set(value) {

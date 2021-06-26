@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">Flight gear remote control</string>
+    <string name="app_name">FlightGear remote control</string>
     <string name="connect">connect</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="ip_text">Enter IP</string>
+    <string name="port_text">Enter port</string>
 </resources>

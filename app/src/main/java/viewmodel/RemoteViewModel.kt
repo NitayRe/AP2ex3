@@ -4,7 +4,7 @@ interface RemoteViewModel {
     fun connect()
 
     var ip : String
-    var port : Int
+    var port : String
 
     var aileron : Double
     var elevator : Double

@@ -62,11 +62,13 @@
 
         <EditText
             android:id="@+id/ipEdit"
+            android:hint="@string/ip_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             android:layout_marginStart="12dp"
             android:layout_marginLeft="12dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="12dp"
             android:layout_marginRight="12dp"
             android:autofillHints="ip"
@@ -74,12 +76,14 @@
             android:inputType="textPersonName"
             android:text="@={viewModel.ip}"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="LabelFor" />
 
         <EditText
             android:id="@+id/portEdit"
+            android:hint="@string/port_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
@@ -91,7 +95,7 @@
             android:autofillHints="port"
             android:ems="10"
             android:inputType="number"
-            android:text="@={`` + viewModel.port}"
+            android:text="@={viewModel.port}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ipEdit"
