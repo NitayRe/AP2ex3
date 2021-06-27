@@ -1,7 +1,7 @@
 package view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import model.RemoteModel
 import model.RemoteModelImpl
@@ -28,8 +28,10 @@ class MainActivity : AppCompatActivity() {
         val binding : ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = viewModel
 
+
         binding.rudder.max = SEEKBAR_MAX
         binding.throttle.max = SEEKBAR_MAX
+        binding.executePendingBindings()
 
         // bind joystick move to aileron and elevator
         binding.joystick.setOnJoystickMovedListener(object : OnJoystickMovedListener {

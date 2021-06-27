@@ -1,10 +1,12 @@
 package model
 
+import androidx.databinding.Observable
+
 /**
  *  this is the interface of the remote model.
  *  model's implementations should be as 'active object'.
  */
-interface RemoteModel {
+interface RemoteModel : Observable {
 
     /**
      * connecting the remote to a new application.
@@ -26,4 +28,5 @@ interface RemoteModel {
     var elevator : Double
     var rudder : Double
     var throttle : Double
+    var isConnected : Boolean
 }

@@ -1,5 +1,7 @@
 package model
 
+import androidx.databinding.BaseObservable
+import java.io.IOException
 import java.io.PrintWriter
 import java.net.Socket
 import java.util.concurrent.BlockingQueue
@@ -10,10 +12,20 @@ import java.util.concurrent.LinkedBlockingQueue
  * it is an active object -
  *      meaning all tasks run on a different thread on the background.
  */
-class RemoteModelImpl : RemoteModel{
+class RemoteModelImpl : BaseObservable(), RemoteModel{
     private lateinit var socket : Socket            // the connection to the server.
-    private val tasks : BlockingQueue<Runnable>    // the tasks queue.
-    private var stop : Boolean = false            // whether it should stop.
+    private val tasks : BlockingQueue<Runnable>     // the tasks queue.
+    private var stop : Boolean = false              // whether it should stop.
+    override var isConnected : Boolean = false               // whether the connection is alive
+        set(value) {
+            // notify the value is changed
+            if (value != field) {
+
+                field = value
+                notifyChange()
+            }
+        }
+
     init {
         // creating the tasks queue.
         tasks = LinkedBlockingQueue()
@@ -48,9 +60,15 @@ class RemoteModelImpl : RemoteModel{
     private fun innerConnect(ip : String, port : Int) {
         if (this::socket.isInitialized) {
             socket.close()
+            isConnected = false
+        }
+        try {
+            socket = Socket(ip, port)
+            isConnected = true
+        } catch (e : Exception) {
+            isConnected = false
         }
 
-        socket = Socket(ip, port)
     }
 
     /**
@@ -59,9 +77,13 @@ class RemoteModelImpl : RemoteModel{
      */
     private fun sendStringTask(toSend : String) {
         val toRun = {
-            val out = PrintWriter(socket.getOutputStream(),true)
-            out.print(toSend + "\r\n")
-            out.flush()
+            try {
+                val out = PrintWriter(socket.getOutputStream(),true)
+                out.print(toSend + "\r\n")
+                out.flush()
+            } catch (e : IOException) {
+                isConnected = false
+            }
         }
         tasks.add(toRun)
     }
