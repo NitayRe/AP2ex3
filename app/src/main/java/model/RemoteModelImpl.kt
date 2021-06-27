@@ -1,11 +1,8 @@
 package model
 
-import android.util.Log
 import androidx.databinding.BaseObservable
 import java.io.IOException
 import java.io.PrintWriter
-import java.lang.Error
-import java.lang.RuntimeException
 import java.net.*
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.LinkedBlockingQueue
@@ -16,7 +13,13 @@ import java.util.concurrent.LinkedBlockingQueue
  *      meaning all tasks run on a different thread on the background.
  */
 class RemoteModelImpl : BaseObservable(), RemoteModel{
-    private lateinit var socket : Socket            // the connection to the server.
+
+    // the timeout while creating socket
+    companion object{
+        private const val TIMEOUT : Int = 500
+    }
+
+    private lateinit var server : Socket            // the connection to the server.
     private val tasks : BlockingQueue<Runnable>     // the tasks queue.
     private var stop : Boolean = false              // whether it should stop.
     override var isConnected : Boolean = false               // whether the connection is alive
@@ -29,13 +32,14 @@ class RemoteModelImpl : BaseObservable(), RemoteModel{
             }
         }
 
+
     init {
         // creating the tasks queue.
         tasks = LinkedBlockingQueue()
 
         // running the background thread, which handles the tasks.
         Thread(
-            Runnable { run() }, "cursed thread"
+            { run() }, "cursed thread"
         ).start()
 
     }
@@ -46,8 +50,10 @@ class RemoteModelImpl : BaseObservable(), RemoteModel{
      */
     private fun run() {
         while (!stop) {
+            // blocking method - waits for a tasks (Runnable).
+            val toRun : Runnable = tasks.take()
+
             try {
-                val toRun = tasks.take()    // blocking method - waits for a tasks.
                 toRun.run()
             } catch (e : Exception) {
             }
@@ -62,14 +68,16 @@ class RemoteModelImpl : BaseObservable(), RemoteModel{
      */
     private fun innerConnect(ip : String, port : Int) {
         // trying to close the old socket.
-        try {
-            socket.close()
-        } catch (e : Exception) {
+        if (isConnected) {
+            try {
+                server.close()
+            } catch (e: Exception) {
+            }
         }
 
         try {
-            socket = Socket()
-            socket.connect(InetSocketAddress(ip, port))
+            server = Socket()
+            server.connect(InetSocketAddress(ip, port), TIMEOUT)
             isConnected = true
         } catch (e : Exception) {
             isConnected = false
@@ -82,13 +90,12 @@ class RemoteModelImpl : BaseObservable(), RemoteModel{
      * @param toSend the string to send.
      */
     private fun sendStringTask(toSend : String) {
-        val toRun = {
+        val toRun = Runnable {
             try {
-                val out = PrintWriter(socket.getOutputStream(),true)
+                val out = PrintWriter(server.getOutputStream(),true)
                 out.print(toSend + "\r\n")
                 out.flush()
-                out.close()
-            } catch (e : Exception) {
+            } catch (e : IOException) {
                 isConnected = false
             }
         }
@@ -101,7 +108,7 @@ class RemoteModelImpl : BaseObservable(), RemoteModel{
      * @param port the port of the server.
      */
     override fun connect(ip : String, port : Int) {
-        val toRun = Runnable { innerConnect(ip, port)}
+        val toRun = Runnable { innerConnect(ip, port) }
         tasks.add(toRun)
     }
 
@@ -135,7 +142,7 @@ class RemoteModelImpl : BaseObservable(), RemoteModel{
         }
 
     override fun close() {
-        val toRun1 = { socket.close() }
+        val toRun1 = { server.close() }
         val toRun2 = { stop = true }
 
         tasks.add(toRun1)
