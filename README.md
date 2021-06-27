@@ -2,7 +2,7 @@
 
 in this assinment, we created a remote control for Flight Simulator (FlightGear simulator).
 
-A [video][line_to_video] explaining and demonstrating the project. his [slides], and the app [apk]
+A [video][line_to_video] explaining and demonstrating the project. his ![slides](resources/presentaion.pdf), and the app [apk]
 
 The remote looks like:
 
