@@ -60,4 +60,8 @@ class RemoteViewModelImpl(private var model : RemoteModel, private val seekbarMa
             model.throttle = value.toDouble() / seekbarMax
             field = value
         }
+
+    override fun close() {
+        model.close()
+    }
 }

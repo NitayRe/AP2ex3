@@ -7,6 +7,8 @@ import androidx.databinding.Observable
 interface RemoteViewModel : Observable {
     fun connect()
 
+    fun close()
+
     var ip : String
     var port : String
 
