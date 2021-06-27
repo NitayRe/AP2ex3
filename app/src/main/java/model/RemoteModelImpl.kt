@@ -1,7 +1,6 @@
 package model
 
 import androidx.databinding.BaseObservable
-import java.io.IOException
 import java.io.PrintWriter
 import java.net.*
 import java.util.concurrent.BlockingQueue
@@ -78,6 +77,7 @@ class RemoteModelImpl : BaseObservable(), RemoteModel{
         try {
             server = Socket()
             server.connect(InetSocketAddress(ip, port), TIMEOUT)
+            server.soTimeout = TIMEOUT
             isConnected = true
         } catch (e : Exception) {
             isConnected = false
@@ -95,7 +95,7 @@ class RemoteModelImpl : BaseObservable(), RemoteModel{
                 val out = PrintWriter(server.getOutputStream(),true)
                 out.print(toSend + "\r\n")
                 out.flush()
-            } catch (e : IOException) {
+            } catch (e : Exception) {
                 isConnected = false
             }
         }

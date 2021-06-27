@@ -5,9 +5,11 @@ plugins {
 }
 
 android {
-    dataBinding {
-        //noinspection DataBindingWithoutKapt
-        enabled = true
+    buildFeatures {
+        dataBinding {
+            //noinspection DataBindingWithoutKapt
+            enabled = true
+        }
     }
 
     compileSdkVersion 30
