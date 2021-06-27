@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.databinding.BaseObservable
 import java.io.IOException
 import java.io.PrintWriter
-import java.net.Socket
+import java.lang.Error
+import java.lang.RuntimeException
+import java.net.*
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -32,9 +34,9 @@ class RemoteModelImpl : BaseObservable(), RemoteModel{
         tasks = LinkedBlockingQueue()
 
         // running the background thread, which handles the tasks.
-        Thread{
-            run()
-        }.start()
+        Thread(
+            Runnable { run() }, "cursed thread"
+        ).start()
 
     }
 
@@ -44,8 +46,8 @@ class RemoteModelImpl : BaseObservable(), RemoteModel{
      */
     private fun run() {
         while (!stop) {
-            val toRun = tasks.take()    // blocking method - waits for a tasks.
             try {
+                val toRun = tasks.take()    // blocking method - waits for a tasks.
                 toRun.run()
             } catch (e : Exception) {
             }
@@ -66,7 +68,8 @@ class RemoteModelImpl : BaseObservable(), RemoteModel{
         }
 
         try {
-            socket = Socket(ip, port)
+            socket = Socket()
+            socket.connect(InetSocketAddress(ip, port))
             isConnected = true
         } catch (e : Exception) {
             isConnected = false
@@ -84,6 +87,7 @@ class RemoteModelImpl : BaseObservable(), RemoteModel{
                 val out = PrintWriter(socket.getOutputStream(),true)
                 out.print(toSend + "\r\n")
                 out.flush()
+                out.close()
             } catch (e : Exception) {
                 isConnected = false
             }
