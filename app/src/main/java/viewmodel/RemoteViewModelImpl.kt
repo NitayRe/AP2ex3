@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
-import androidx.databinding.library.baseAdapters.BR
 import model.RemoteModel
 
 class RemoteViewModelImpl(private var model : RemoteModel, private val seekbarMax : Int) : BaseObservable(), RemoteViewModel {

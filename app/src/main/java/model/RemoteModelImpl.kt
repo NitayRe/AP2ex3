@@ -1,5 +1,6 @@
 package model
 
+import android.util.Log
 import androidx.databinding.BaseObservable
 import java.io.IOException
 import java.io.PrintWriter
@@ -58,10 +59,12 @@ class RemoteModelImpl : BaseObservable(), RemoteModel{
      * @param port the port of the server.
      */
     private fun innerConnect(ip : String, port : Int) {
-        if (this::socket.isInitialized) {
+        // trying to close the old socket.
+        try {
             socket.close()
-            isConnected = false
+        } catch (e : Exception) {
         }
+
         try {
             socket = Socket(ip, port)
             isConnected = true
@@ -81,7 +84,7 @@ class RemoteModelImpl : BaseObservable(), RemoteModel{
                 val out = PrintWriter(socket.getOutputStream(),true)
                 out.print(toSend + "\r\n")
                 out.flush()
-            } catch (e : IOException) {
+            } catch (e : Exception) {
                 isConnected = false
             }
         }
