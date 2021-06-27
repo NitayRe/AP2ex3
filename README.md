@@ -2,7 +2,7 @@
 
 in this assinment, we created a remote control for Flight Simulator (FlightGear simulator).
 
-A [video](https://youtu.be/YTw8Jcf7lLA) explaining and demonstrating the project. his ![slides](resources/presentaion.pdf), and the app [apk]
+A [video](https://youtu.be/YTw8Jcf7lLA) explaining and demonstrating the project. his ![slides](resources/presentaion.pdf), and the app ![apk](resources/app.apk)
 
 The remote looks like:
 
@@ -22,7 +22,7 @@ Since the android UI package doesn't supply a Joystick, we made a special custom
 There are two options for running the application:
 - running it on the pc, using an emulator.
 for this we recommend using "Android Studio" (open the project with Andorid Studio and run it).
-- installing the app on an android phone - using this [apk][apk-link] to install the app.
+- installing the app on an android phone - using this ![apk](resources/app.apk) to install the app.
 
 
 in both ways, you first need to run the FlightGear simulator with the following settings:
